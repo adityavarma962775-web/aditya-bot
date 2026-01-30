@@ -1,3 +1,5 @@
+from flask import Flask
+import threading
 import telebot
 import requests
 import time
@@ -6,6 +8,13 @@ import string
 import threading
 
 # --- CONFIGURATION ---
+app = Flask('')
+@app.route('/')
+def home():
+    return "Bot is Alive!"
+
+def run_dummy_server():
+    app.run(host='0.0.0.0', port=8000)
 API_TOKEN = '8550288258:AAEU9XjS3_8XPPyqlIGo3KrvzmPMdCGAeik' 
 ADMIN_ID = 6131454126  # Is ID ke alawa koi admin command nahi chala payega          
 
@@ -171,4 +180,9 @@ def system_logs(message):
     bot.send_message(message.chat.id, log_msg)
 
 print("Aditya Information Bot v2.4 is ONLINE! 🚀")
-bot.infinity_polling()
+if __name__ == "__main__":
+    # Dummy server ko background mein chalane ke liye
+    threading.Thread(target=run_dummy_server, daemon=True).start()
+    print("Aditya Bot is ONLINE! 🚀")
+    bot.infinity_polling()
+    
